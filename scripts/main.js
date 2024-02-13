@@ -139,7 +139,8 @@ function calculate() {
         x[i] = roundByPrecision(x[i], precision)
         deltas[i] = roundByPrecision(deltas[i], precision / 100)
     }
-    showSolution(currentIter, x, deltas)
+
+    showSolution(currentIter, iterations, x, deltas)
 }
 
 function validateFullMatrix(m, coefs) {
@@ -354,13 +355,19 @@ function setOutputReplaced(message, matrix) {
     if (matrix !== null) outputReplaced.appendChild(matrixToHTML(matrix))
 }
 
-function showSolution(currentIter, x, deltas) {
-    let solutionLabel = document.createElement('p')
-    let errorsLabel = document.createElement('p')
-    solutionLabel.innerText = `Решение (итераций: ${currentIter}):`
-    errorsLabel.innerText = 'Погрешности:'
-    solution.appendChild(solutionLabel)
-    solution.appendChild(vectorToHTML(x))
-    solution.appendChild(errorsLabel)
-    solution.appendChild(vectorToHTML(deltas))
+function showSolution(currentIter, iterations, x, deltas) {
+    if (currentIter === iterations) {
+        let solutionLabel = document.createElement('p')
+        solutionLabel.innerText = 'Решение не найдено с требуемой точностью (расходящийся процесс или мало итераций)'
+        solution.appendChild(solutionLabel)
+    } else {
+        let solutionLabel = document.createElement('p')
+        let errorsLabel = document.createElement('p')
+        solutionLabel.innerText = `Решение (итераций: ${currentIter}):`
+        errorsLabel.innerText = 'Погрешности:'
+        solution.appendChild(solutionLabel)
+        solution.appendChild(vectorToHTML(x))
+        solution.appendChild(errorsLabel)
+        solution.appendChild(vectorToHTML(deltas))
+    }
 }
