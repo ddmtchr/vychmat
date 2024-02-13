@@ -110,9 +110,9 @@ function calculate() {
 
     let [newMatrix, newCoefs] = expressVariables(replacedMatrix, replacedCoefs)
     let x = newCoefs.slice()
-    if (approximationsInput.value === '0') {
+    if (approximationsInput.value !== '' && !isNaN(parseFloat(approximationsInput.value))) {
         for (let i = 0; i < x.length; i++) {
-            x[i] = 0
+            x[i] = parseFloat(approximationsInput.value)
         }
     }
     const dim = parseInt(dimensionInput.value)
