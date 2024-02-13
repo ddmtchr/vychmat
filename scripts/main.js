@@ -92,6 +92,10 @@ function calculate() {
     clearOutput()
     let m = parseMatrix();
     let coefs = parseVector();
+    if (!validateFullMatrix(m, coefs)) {
+        setOriginal('Матрица и свободные коэффициенты заполнены не полностью', null)
+        return
+    }
 
     setOriginal('Исходная матрица:', m)
 
@@ -106,7 +110,7 @@ function calculate() {
 
     let [newMatrix, newCoefs] = expressVariables(replacedMatrix, replacedCoefs)
     let x = newCoefs.slice()
-    if (approximationsInput.value === 0) {
+    if (approximationsInput.value === '0') {
         for (let i = 0; i < x.length; i++) {
             x[i] = 0
         }
@@ -136,6 +140,13 @@ function calculate() {
         deltas[i] = roundByPrecision(deltas[i], precision / 100)
     }
     showSolution(currentIter, x, deltas)
+}
+
+function validateFullMatrix(m, coefs) {
+    for (let i = 0; i < m.length; i++) {
+        if (m[i].includes(NaN)) return false
+    }
+    return (!coefs.includes(NaN))
 }
 
 function checkPredominance(matrix) {
@@ -333,7 +344,7 @@ function setOriginal(message, matrix) {
     let originalLabel = document.createElement('p')
     originalLabel.innerText = message
     outputOriginal.appendChild(originalLabel)
-    outputOriginal.appendChild(matrixToHTML(matrix))
+    if (matrix !== null) outputOriginal.appendChild(matrixToHTML(matrix))
 }
 
 function setOutputReplaced(message, matrix) {
