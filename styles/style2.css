@@ -1,0 +1,30 @@
+.equations-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.radios {
+    /*padding: 2px;*/
+    /*margin: 2px;*/
+}
+
+.radios input[type=radio] {
+    display: none;
+}
+
+.radios .radio {
+    display: inline-block;
+    cursor: pointer;
+    box-sizing: border-box;
+    padding: 2px;
+    margin: 2px;
+    border: 1px solid transparent;
+}
+
+.radios input[type=radio]:checked + .radio {
+    border: 1px solid black;
+}
+
+.solve-button {
+    margin-top: auto;
+}

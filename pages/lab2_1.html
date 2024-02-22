@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Лаб. 2.1</title>
+    <link rel="icon" href="../resources/plus.png">
+    <link rel="stylesheet" href="../styles/style1.css"/>
+    <link rel="stylesheet" href="../styles/style2.css"/>
+    <script type="text/javascript" id="MathJax-script" async
+            src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+    </script>
+    <script src="https://www.desmos.com/api/v1.8/calculator.js?apiKey=dcb31709b452b1cf9dc26972add0fda6"></script>
+
+</head>
+<body>
+
+<header>
+    <div class="header">
+        <div class="buttons-container">
+            <a href="../index.html" class="button">На главную</a>
+        </div>
+    </div>
+</header>
+
+<div class="container">
+    <div>
+        <p>Выберите уравнение:</p>
+        <div class="equations-container">
+            <div class="radios">
+                <input type="radio" name="equation" value="1" id="eq1" checked="checked"/>
+                <label class="radio" for="eq1">\(x^3-3x^2-13x+15=0\)</label>
+            </div>
+            <div class="radios">
+                <input type="radio" name="equation" value="2" id="eq2"/>
+                <label class="radio" for="eq2">\(x-\cos{4x}=0\)</label>
+            </div>
+            <div class="radios">
+                <input type="radio" name="equation" value="3" id="eq3"/>
+                <label class="radio" for="eq3">\(x^{5}-x^{4}+0.39x^{3}-24.58x^{2}+31.23x+15.5=0\)</label>
+            </div>
+            <div class="radios">
+                <input type="radio" name="equation" value="4" id="eq4"/>
+                <label class="radio" for="eq4">\(\ln{(x^2+1)}-5e^{\frac{1}{2}\cos{x}}=0\)</label>
+            </div>
+        </div>
+        <div class="input-container" id="file-input-container">
+            <input type="file" id="file-input" accept=".txt">
+            <label for="file-input" class="custom-file-upload">
+                Ввод из файла
+            </label>
+        </div>
+        <div class="input-container">
+            <button id="download-button" hidden>Вывод в файл</button>
+        </div>
+    </div>
+    <div>
+        <div class="input-container-group">
+            <div class="input-container">
+                <label for="method">
+                    Метод:
+                </label>
+                <select id="method" name="method">
+                    <option value="1">Метод половинного деления</option>
+                    <option value="2">Метод Ньютона</option>
+                    <option value="3">Метод простой итерации</option>
+                </select>
+            </div>
+            <div class="input-container">
+                <label for="left-bound">
+                    Интервал для поиска корня: [
+                    <input type="number" id="left-bound">;
+                    <input type="number" id="right-bound">
+                    ]
+                </label>
+            </div>
+            <div class="input-container">
+                <label for="precision">
+                    Точность:
+                </label>
+                <input type="number" id="precision" min="0.0000000001" max="1" step="0.0000000001" value="0.001">
+            </div>
+            <div class="input-container" id="iterations-container" style="display: none">
+                <label for="iterations">
+                    Макс. число итераций:
+                </label>
+                <input type="number" id="iterations" min="1" value="1">
+            </div>
+            <div class="buttons-container solve-button">
+                <button onclick="calculate()">Решить</button>
+            </div>
+        </div>
+    </div>
+    <div>
+        <div id="calculator" style="width: 600px; height: 400px;" hidden></div>
+    </div>
+</div>
+
+<div class="container output-container">
+    <div id="out-solution"></div>
+</div>
+
+<script type="text/javascript" src="../scripts/script2_1.js"></script>
+<script type="text/javascript" src="../scripts/mathematics.js"></script>
+
+</body>
+</html>

@@ -106,6 +106,12 @@ function calculate() {
         setOutputReplaced('Преобразованная матрица:', replacedMatrix)
     } else {
         setOutputReplaced('Достигнуть диагонального преобладания невозможно. Скорее всего, решение будет неверным', null)
+        if (!replaceNulls(replacedMatrix, replacedCoefs)) {
+            let noSolutionLabel = document.createElement('p')
+            noSolutionLabel.innerText = 'СЛАУ не имеет решений'
+            solution.appendChild(noSolutionLabel)
+            return
+        }
     }
 
     let [newMatrix, newCoefs] = expressVariables(replacedMatrix, replacedCoefs)
@@ -135,6 +141,7 @@ function calculate() {
         currentIter++
     }
 
+    // Округление ответа
     for (let i = 0; i < dim; i++) {
         x[i] = roundByPrecision(x[i], precision)
         deltas[i] = roundByPrecision(deltas[i], precision / 100)
@@ -199,6 +206,34 @@ function replaceRows(matrix, coefs, p) {
     return [newMatrix, newCoefs]
 }
 
+function swapRows(matrix, coefs, i, j) {
+    let temp = matrix[i]
+    matrix[i] = matrix[j]
+    matrix[j] = temp
+    temp = coefs[i]
+    coefs[i] = coefs[j]
+    coefs[j] = temp
+}
+
+function replaceNulls(matrix, coefs) {
+    for (let i = 0; i < matrix.length; i++) {
+        if (matrix[i][i] === 0) {
+            let found = false;
+            for (let j = i + 1; j < matrix.length; j++) {
+                if (matrix[j][i] !== 0) {
+                    swapRows(matrix, coefs, i, j);
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
 function expressVariables(matrix, coefs) {
     const dim = matrix.length
     let newMatrix = []
@@ -216,34 +251,6 @@ function expressVariables(matrix, coefs) {
         newCoefs.push(coefs[i] / matrix[i][i])
     }
     return [newMatrix, newCoefs]
-}
-
-function matrixByVector(matrix, vector) {
-    const dim = matrix.length
-    let newVector = []
-    for (let i = 0; i < dim; i++) {
-        let s = 0;
-        for (let j = 0; j < dim; j++) {
-            s += matrix[i][j] * vector[j]
-        }
-        newVector.push(s)
-    }
-    return newVector
-}
-
-function sumVectors(v1, v2) {
-    const dim = v1.length
-    let newVector = []
-    for (let i = 0; i < dim; i++) {
-        newVector.push(v1[i] + v2[i])
-    }
-    return newVector
-}
-
-function roundByPrecision(number, p) {
-    const k = 1 / p
-    const afterPoint = -Math.log10(p)
-    return parseFloat((Math.round(number * k) / k).toFixed(afterPoint))
 }
 
 function parseFile(text) {
@@ -298,34 +305,6 @@ function parseVector() {
         vec.push(parseFloat(inputsList[i].value))
     }
     return vec
-}
-
-function matrixToHTML(matrix) {
-    let table = document.createElement('table')
-    const dim = matrix.length
-    for (let i = 0; i < dim; i++) {
-        let row = document.createElement('tr')
-        for (let j = 0; j < dim; j++) {
-            let cell = document.createElement('td')
-            cell.innerText = matrix[i][j]
-            row.appendChild(cell)
-        }
-        table.appendChild(row)
-    }
-    return table
-}
-
-function vectorToHTML(vector) {
-    let table = document.createElement('table')
-    const dim = vector.length
-    for (let i = 0; i < dim; i++) {
-        let row = document.createElement('tr')
-        let cell = document.createElement('td')
-        cell.innerText = vector[i]
-        row.appendChild(cell)
-        table.appendChild(row)
-    }
-    return table
 }
 
 function hasDuplicates(arr) {

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Лаб. 2.2</title>
+    <link rel="icon" href="../resources/plus.png">
+    <link rel="stylesheet" href="../styles/style1.css"/>
+    <link rel="stylesheet" href="../styles/style2.css"/>
+    <script type="text/javascript" id="MathJax-script" async
+            src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+    </script>
+    <script src="https://www.desmos.com/api/v1.8/calculator.js?apiKey=dcb31709b452b1cf9dc26972add0fda6"></script>
+
+</head>
+<body>
+
+<header>
+    <div class="header">
+        <div class="buttons-container">
+            <a href="../index.html" class="button">На главную</a>
+        </div>
+    </div>
+</header>
+
+<div class="container">
+    <div>
+        <p>Выберите систему:</p>
+        <div class="equations-container">
+            <div class="radios">
+                <input type="radio" name="equation" value="1" id="eq1" checked="checked"/>
+                <label class="radio" for="eq1">\(\left\{\begin{matrix}x+xy^3-9=0\\xy+xy^2-6=0\end{matrix}\right.\)</label>
+            </div>
+            <div class="radios">
+                <input type="radio" name="equation" value="2" id="eq2"/>
+                <label class="radio" for="eq2">\(\left\{\begin{matrix}sin{(x-1)}-y-2=0\\3x-\cos{y}-2=0\end{matrix}\right.\)</label>
+            </div>
+        </div>
+    </div>
+    <div>
+        <div class="input-container-group">
+            <div class="input-container">
+                <label for="method">
+                    Метод:
+                </label>
+                <select id="method" name="method">
+                    <option value="1">Метод Ньютона</option>
+                </select>
+            </div>
+            <div class="input-container">
+                <label for="x-appr">
+                    Начальные приближения: x<sub>0</sub>=
+                    <input type="number" id="x-appr">; y<sub>0</sub>=
+                    <input type="number" id="y-appr">
+                </label>
+            </div>
+            <div class="buttons-container solve-button">
+                <button onclick="calculate()">Решить</button>
+            </div>
+        </div>
+    </div>
+    <div>
+        <div id="calculator" style="width: 600px; height: 400px;" hidden></div>
+    </div>
+</div>
+
+<div class="container output-container">
+    <div id="out-solution"></div>
+</div>
+
+<script type="text/javascript" src="../scripts/script2_2.js"></script>
+<script type="text/javascript" src="../scripts/mathematics.js"></script>
+
+</body>
+</html>
