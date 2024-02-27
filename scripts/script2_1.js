@@ -7,6 +7,7 @@ const iterationsInput = document.querySelector('#iterations')
 const fileInput = document.querySelector('#file-input')
 const iterationsContainer = document.querySelector('#iterations-container')
 const downloadButton = document.querySelector('#download-button')
+const radioLabels = document.getElementsByName('equation')
 
 const functions = [f1, f2, f3, f4]
 const latexStrings = [
@@ -60,6 +61,15 @@ downloadButton.addEventListener('click', function () {
     element.click()
     document.body.removeChild(element)
 })
+
+for (let radio of radioLabels) {
+    radio.addEventListener('click', function() {
+        const equationIndex = parseInt(radio.value) - 1;
+        calculator.setExpression({id: 'y', latex: latexStrings[equationIndex]})
+        calculator.setMathBounds({left: -10, right: 10, top: 6, bottom: -6})
+        calculatorDiv.hidden = false
+    })
+}
 
 function calculate() {
     outputSolution.innerText = ''
@@ -152,19 +162,19 @@ function getNewtonApproximation(f, a, b) {
 function simpleIteration(f, a, b, precision) {
     const lambda = -1 / Math.max(derivative(f, a), derivative(f, b))
     let q = maxPhiDerivative(a, b, lambda, f)
-    let x = (a + b) / 2
+    let x = (a + b) / 2 // getNewtonApproximation(f, a, b)
     let prev = x + 10 * precision
     let currentIter = 0
     const maxIter = parseInt(iterationsInput.value)
     if (q < 1) {
-        while (Math.abs(prev - x) > precision) {
+        while (Math.abs(prev - x) > precision || Math.abs(f(x)) > precision) {
             prev = x
             x = Phi(prev, lambda, f)
             currentIter++
         }
     } else {
         outputSolution.innerText += 'Возможно, решение этим методом не сойдется\n'
-        while (Math.abs(prev - x) > precision && currentIter < maxIter) {
+        while ((Math.abs(prev - x) > precision || Math.abs(f(x)) > precision) && currentIter < maxIter) {
             prev = x
             x = Phi(prev, lambda, f)
             currentIter++

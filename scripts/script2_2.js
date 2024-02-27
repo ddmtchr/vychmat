@@ -1,6 +1,7 @@
 const outputSolution = document.querySelector('#out-solution')
 const xApprInput = document.querySelector('#x-appr')
 const yApprInput = document.querySelector('#y-appr')
+const radioLabels = document.getElementsByName('equation')
 
 const precision = 0.01
 const functions = [[f1, f2], [f3, f4]]
@@ -17,6 +18,16 @@ const calculator = Desmos.GraphingCalculator(calculatorDiv, {
     zoomButtons: false,
     lockViewport: true
 })
+
+for (let radio of radioLabels) {
+    radio.addEventListener('click', function() {
+        const equationIndex = parseInt(radio.value) - 1;
+        calculator.setExpressions([{id: 'x', latex: latexStrings[equationIndex][0]},
+            {id: 'y', latex: latexStrings[equationIndex][1]}])
+        calculator.setMathBounds({left: -10, right: 10, top: 6, bottom: -6})
+        calculatorDiv.hidden = false
+    })
+}
 
 function calculate() {
     outputSolution.innerText = ''
@@ -35,7 +46,7 @@ function calculate() {
 
     let [solution, deltas, iters] = newtonMethod(functions[equationIndex], xAppr, yAppr)
 
-    showSolution(iters, solution, deltas)
+    showSolution(iters, equationIndex, solution, deltas)
 }
 
 function newtonMethod(funcs, x0, y0) {
@@ -77,7 +88,7 @@ function f4(x, y) {
     return 3 * x - Math.cos(y) - 2
 }
 
-function showSolution(currentIter, x, deltas) {
+function showSolution(currentIter, index, x, deltas) {
     let solutionText = currentIter < 10000 ? `Решение (итераций: ${currentIter}):` : `Выход за максимальное число итераций. Не сошлось :(\n Неверное решение (итераций: ${currentIter}):`
     let solutionLabel = document.createElement('p')
     let errorsLabel = document.createElement('p')
@@ -87,4 +98,8 @@ function showSolution(currentIter, x, deltas) {
     outputSolution.appendChild(vectorToHTML(x))
     outputSolution.appendChild(errorsLabel)
     outputSolution.appendChild(vectorToHTML(deltas))
+    outputSolution.innerText += `
+    
+    F1=${functions[index][0](x[0], x[1])}
+    F2=${functions[index][1](x[0], x[1])}`
 }
