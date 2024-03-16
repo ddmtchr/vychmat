@@ -21,6 +21,10 @@ function calculate() {
         outputSolution.innerText += 'Не введены или введены неверно границы и/или точность и разбиение'
         return
     }
+    if (fragmentation < 4) {
+        outputSolution.innerText += 'Минимальное разбиение - 4'
+        return
+    }
 
     let prevSolution, solution
     const error = getError(method)
