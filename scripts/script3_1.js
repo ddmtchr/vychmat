@@ -3,7 +3,6 @@ const methodInput = document.querySelector('#method')
 const leftBoundInput = document.querySelector('#left-bound')
 const rightBoundInput = document.querySelector('#right-bound')
 const precisionInput = document.querySelector('#precision')
-const fragmentationInput = document.querySelector('#fragmentation')
 
 const functions = [f1, f2, f3, f4]
 const methods = [leftRectanglesMethod, centralRectanglesMethod, rightRectanglesMethod,
@@ -16,13 +15,9 @@ function calculate() {
     const rightBound = parseFloat(rightBoundInput.value)
     const precision = parseFloat(precisionInput.value)
     const method = parseInt(methodInput.value)
-    let fragmentation = parseInt(fragmentationInput.value)
+    let fragmentation = 4
     if (isNaN(leftBound) || isNaN(rightBound) || isNaN(precision) || isNaN(fragmentation)) {
         outputSolution.innerText += 'Не введены или введены неверно границы и/или точность и разбиение'
-        return
-    }
-    if (fragmentation < 4) {
-        outputSolution.innerText += 'Минимальное разбиение - 4'
         return
     }
 
