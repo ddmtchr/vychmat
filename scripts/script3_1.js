@@ -24,17 +24,34 @@ function calculate() {
     let prevSolution, solution
     const error = getError(method)
 
-    prevSolution = methods[method - 1](functions[equationIndex], leftBound, rightBound, fragmentation)
-    fragmentation = fragmentation * 2;
-    solution = methods[method - 1](functions[equationIndex], leftBound, rightBound, fragmentation)
+    if (method <= 3) {
+        for (let i = 1; i <= 3; i++) {
+            fragmentation = 4
+            prevSolution = methods[i - 1](functions[equationIndex], leftBound, rightBound, fragmentation)
+            fragmentation = fragmentation * 2;
+            solution = methods[i - 1](functions[equationIndex], leftBound, rightBound, fragmentation)
+            while (runge(error, prevSolution, solution) >= precision) {
+                prevSolution = solution
+                fragmentation = fragmentation * 2;
+                solution = methods[i - 1](functions[equationIndex], leftBound, rightBound, fragmentation)
+            }
+            showSolution(solution, fragmentation)
 
-    while (runge(error, prevSolution, solution) >= precision) {
-        prevSolution = solution
+        }
+    } else {
+        prevSolution = methods[method - 1](functions[equationIndex], leftBound, rightBound, fragmentation)
         fragmentation = fragmentation * 2;
         solution = methods[method - 1](functions[equationIndex], leftBound, rightBound, fragmentation)
+
+        while (runge(error, prevSolution, solution) >= precision) {
+            prevSolution = solution
+            fragmentation = fragmentation * 2;
+            solution = methods[method - 1](functions[equationIndex], leftBound, rightBound, fragmentation)
+        }
+        showSolution(solution, fragmentation)
+
     }
 
-    showSolution(solution, fragmentation)
 }
 
 function leftRectanglesMethod(f, a, b, frag) {
@@ -125,5 +142,5 @@ function f4(x) {
 
 function showSolution(solution, frag) {
     outputSolution.innerText += `Решение: ${solution} 
-    Итоговое разбиение: ${frag}`
+    Итоговое разбиение: ${frag}\n`
 }
